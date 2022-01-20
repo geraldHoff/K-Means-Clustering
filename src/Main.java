@@ -32,12 +32,19 @@ public class Main extends Application {
 
         Random rand = new Random();
 
-        int d = 10000;
+        //set number of dots
+        int d = 1000;
+
+        Circle[] circleArray = new Circle[d];
+
+        //populate
         for(int i = 0; i < d; i++){
             Circle circle = new Circle(
-                    rand.nextInt(1600), rand.nextInt(800), rand.nextInt(10),
-                    Color.rgb(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255))
+                    rand.nextInt(130) * 10 + 37, rand.nextInt(60) * 10 + 50, 5,
+                    Color.rgb(rand.nextInt(230), rand.nextInt(230),
+                            rand.nextInt(230))
             );
+            circleArray[i] = circle;
             root.getChildren().add(circle);
         }
 
