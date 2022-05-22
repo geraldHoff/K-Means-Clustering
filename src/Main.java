@@ -4,12 +4,23 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.util.Random;
 
+/**
+ * Gerald Hoff
+ * Git Repo: https://github.com/geraldHoff/K-Means-Clustering
+ */
 public class Main extends Application {
+
+    public static void main(String args[])
+    {
+        // launch the application by calling start()
+        launch(args);
+    }
+
+    public CirclePoint[] circlePointArray = new CirclePoint[100];
 
     /**
      * Sets up the window
@@ -20,38 +31,42 @@ public class Main extends Application {
 
         // set title for the stage
         window.setTitle("KMeans");
-
-        // create a button
-        Button b = new Button("button");
-
-        // create a group
+        Button b = new Button("Cluster");
         Group root = new Group(b);
-
-        // create a scene
         Scene scene = new Scene(root, 400, 400);
 
         Random rand = new Random();
 
         //set number of dots
-        int d = 1000;
+        int dots = 100;
 
-        Circle[] circleArray = new Circle[d];
+        //the number of clusters (colors)
+        int clusters = 4;
+
+
 
         //populate
-        for(int i = 0; i < d; i++){
-            Circle circle = new Circle(
+        for(int i = 0; i < dots; i++){
+            CirclePoint circlePoint = new CirclePoint(
                     rand.nextInt(130) * 10 + 37, rand.nextInt(60) * 10 + 50, 5,
                     Color.rgb(rand.nextInt(230), rand.nextInt(230),
                             rand.nextInt(230))
             );
-            circleArray[i] = circle;
-            root.getChildren().add(circle);
+            circlePointArray[i] = circlePoint;
+            root.getChildren().add(circlePoint);
         }
+
+        b.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                circlePointArray = sortCircles(circlePointArray);
+            }
+        });
 
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Circle circle = new Circle(event.getX(), event.getY(), 5,
+                CirclePoint circle = new CirclePoint((int) event.getX(), (int) event.getY(), 5,
                         Color.rgb(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255))
                 );
                 root.getChildren().add(circle);
@@ -64,9 +79,14 @@ public class Main extends Application {
         window.show();
     }
 
-    public static void main(String args[])
-    {
-        // launch the application by calling start()
-        launch(args);
+    public CirclePoint[] sortCircles(CirclePoint[] circles) {
+        int circlesLength = circles.length;
+        for (int i = 0; i < circlesLength; i+=2){
+            circles[i].setFill(Color.rgb(100, 100, 100));
+        }
+        for (int i = 1; i < circlesLength; i+=2){
+            circles[i].setFill(Color.rgb(200, 200, 200));
+        }
+        return circles;
     }
 }
