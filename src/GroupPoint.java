@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class GroupPoint {
 
     public GroupPoint(int circlePointArrayLength){
@@ -5,6 +7,7 @@ public class GroupPoint {
     }
 
     public CirclePoint[] circlePointArray;
+    public ArrayList<CirclePoint> circlePointArrayList;
 
     double x;
     double y;
@@ -12,10 +15,9 @@ public class GroupPoint {
 
     public void setMean(){
         double temp = 0;
-        for (int i = 0; i < circlePointArray.length; i++){
-            temp = temp + circlePointArray[i].groupDistance;
+        for (int i = 0; i < circlePointArrayList.size(); i++){
+            temp = temp + circlePointArrayList.get(i).groupDistance;
         }
-        //TODO technically this won't work as this doesn't show the number of circlePoints, just the length of array.
-        mean = temp / circlePointArray.length;
+        mean = temp / circlePointArrayList.size();
     }
 }
