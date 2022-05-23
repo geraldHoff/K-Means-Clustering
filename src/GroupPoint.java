@@ -1,4 +1,4 @@
 public class GroupPoint {
-    int x;
-    int y;
+    double x;
+    double y;
 }

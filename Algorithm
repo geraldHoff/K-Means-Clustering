@@ -1,0 +1,14 @@
+K-Means Clustering Algorithm
+
+1. select number of clusters in data (let K = 3)
+
+2. Create GroupPoints randomly
+
+3. For each circle in circles:
+      Find distance between the point and GroupPoint.
+      Assign the CirclePoint's GroupPoint to nearest GroupPoint.
+      Save coordinates of CirclePoint to the GroupPoint.
+
+4. Calculate the mean coordinate of each GroupPoint and move the GroupPoint to that mean
+
+5. Repeat steps 3 and 4 until positions don't change
