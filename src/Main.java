@@ -82,6 +82,7 @@ public class Main extends Application {
      * @param circlePoints The array of circles
      * @param groupPointsLength The number of groups, i.e. the number of GroupPoints
      * @return returns the new array of CirclePoints
+     * Should probably give this its dedicated thread.
      */
     public CirclePoint[] clusterCircles(CirclePoint[] circlePoints, int groupPointsLength) {
 
@@ -90,13 +91,41 @@ public class Main extends Application {
 
         //Create GroupPoints randomly
         for (int i = 0; i < groupPointsLength; i++){
-            GroupPoint groupPoint = new GroupPoint();
+            GroupPoint groupPoint = new GroupPoint(circlesLength);
             groupPoint.x = circlePoints[(i + 1) * (circlesLength / groupPointsLength)].getCenterX();
             groupPoint.y = circlePoints[(i + 1) * (circlesLength / groupPointsLength)].getCenterY();
             groupPointArray[i] = groupPoint;
             System.out.println("GroupPoint x = " + groupPoint.x + " GroupPoint y = " + groupPoint.y + "\n");
         }
 
+        //associate each circlePoint with the closest groupPoint
+        for (int i = 0; i < circlesLength; i++){
+            double smallestDistance;
+            double currentDistance;
+            smallestDistance = distance(circlePoints[i], groupPointArray[0]);
+
+            for (int j = 0; j < groupPointsLength; j++){
+                currentDistance = distance(circlePoints[i], groupPointArray[j]);
+                if (currentDistance < smallestDistance){
+                    smallestDistance = currentDistance;
+                    circlePoints[i].setGroupPoint(groupPointArray[j]);
+                    circlePoints[i].groupDistance = smallestDistance;
+                    //TODO: implement dynamic array or other type, array is not optimal
+                    groupPointArray[j].circlePointArray[i] = circlePoints[i];
+                }
+            }
+        }
+
         return circlePoints;
+    }
+
+    /**
+     * Finds the distance between a CirclePoint and a GroupPoint
+     * @return the distance
+     */
+    public double distance(CirclePoint circlePoint, GroupPoint groupPoint){
+        double x = circlePoint.getCenterX() - groupPoint.x;
+        double y = circlePoint.getCenterY() - groupPoint.y;
+        return Math.sqrt(x * x + y * y);
     }
 }

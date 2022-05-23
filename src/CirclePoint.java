@@ -8,6 +8,9 @@ public class CirclePoint extends Circle {
 
     public GroupPoint group;
 
+    //distance to the nearest groupPoint
+    public double groupDistance;
+
     public void setGroupPoint(GroupPoint group){
         this.group = group;
     }
